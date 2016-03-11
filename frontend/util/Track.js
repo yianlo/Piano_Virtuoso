@@ -1,67 +1,84 @@
 var KeyActions = require('../actions/key_actions');
 
-var Track = function(attrHash){
-  this.name = attrHash.name;
-  this.roll = attrHash.roll || [];
-};
+function Track(attrs) {
+  var defaults = {
+    name: "",
+    roll: []
+  };
 
-Track.prototype.addNotes = function (notes) {
-  console.log("note added");
-  var timeSlice = new Date() - this.currentTime;
-  this.roll.push( {timeSlice: timeSlice, notes: notes} );
-};
+  this.attributes = $.extend(defaults, attrs || {});
+}
 
-Track.prototype.startRecording = function () {
-  console.log(this);
-  console.log("recording started");
-  this.roll = [];
-  this.currentTime = new Date();
-};
-
-Track.prototype.stopRecording = function() {
-  console.log(this);
-  console.log("recording stopped");
-  this.addNotes([]);
-};
-
-Track.prototype.play = function() {
-  var playBackStartTime = new Date();
-  var playingNotes = [];
-
-  this.roll.forEach(function(noteTime){
-    if(noteTime.notes.length === 0){ //IF we hit a blank
-      playingNotes.forEach(function(playingNote){
-        var duration = noteTime.timeSlice - playingNote.startTime;
-        setTimeout(KeyActions.removeKey.bind(playingNote.noteName), duration);
-      });
-    } else {
-      playingNotes.forEach(function(playingNote, idx){
-        if(noteTime.notes.indexOf(playingNote) === -1){
-          var duration = noteTime.timeSlice - playingNote.startTime;
-          setTimeout(KeyActions.removeKey.bind(playingNote.noteName), duration);
-
-          playingNotes.splice(idx, 1);
-        }
-      });
+Track.prototype = {
+  addNotes: function (notes) {
+    var timeSlice = { time: this._timeDelta() };
+    if (notes.length > 0) {
+      //there are actually some keys held down
+      timeSlice.notes = notes;
     }
+    this.attributes.roll.push(timeSlice);
+  },
 
-    noteTime.notes.forEach(function(noteName){
-      if (playingNotes.indexOf(noteName) !== -1){
-        playingNotes.push({noteName: noteName, startTime: noteTime.timeSlice});
-        KeyActions.addKey(noteName);
+  completeRecording: function () {
+    //add an empty time slice to indicate the end
+    this.addNotes([]);
+  },
+
+  get: function (attr) {
+    return this.attributes[attr];
+  },
+
+  isBlank: function () {
+    return this.attributes.roll.length === 0;
+  },
+
+  play: function () {
+    if (this.interval) { return; } // don't play if already in progress
+
+    var currentNote = 0,
+        playBackStartTime = Date.now(),
+        roll = this.attributes.roll,
+        delta;
+
+    this.interval = setInterval(function () {
+      // if there are still notes to be played
+      if (currentNote < roll.length) {
+        delta = Date.now() - playBackStartTime;
+
+        // if we are at a timeslice with a note, play it and move forward
+        if (delta >= roll[currentNote].time) {
+          // memoize because the notes might not be set; thanks Rails!
+          var notes = roll[currentNote].notes || [];
+          KeyActions.groupUpdate(notes);
+          currentNote++;
+        }
+      } else {
+        clearInterval(this.interval);
+        delete this.interval;
       }
-    });
+    }.bind(this), 1);
+  },
 
-      // var intervalId = setInterval(function(){
-      //   if ( new Date() - playBackStartTime < noteTime.timeSlice){
-      //   KeyActions.addKey(noteName);
-      //   } else {
-      //   KeyActions.removeKey(noteName);
-      //   clearInterval(intervalId);
-      //   }
-      // }, 10);
-  });
+  set: function (attr, val) {
+    this.attributes[attr] = val;
+  },
+
+  save: function () {
+    if (this.isBlank()) {
+      throw "track can't be blank!";
+    } else if (this.attributes.name === "") {
+      throw "name can't be blank!";
+    }
+  },
+
+  startRecording: function () {
+    this.attributes.roll = [];
+    this.start = Date.now();
+  },
+
+  _timeDelta: function () {
+    return Date.now() - this.start;
+  }
 };
-
 
 module.exports = Track;

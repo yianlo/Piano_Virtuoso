@@ -1,44 +1,99 @@
 var React = require('react'),
-    Track = require('../util/Track'),
+    Track = require("../util/Track"),
     KeyStore = require('../stores/key_store');
 
-var listenerToken;
-
 var Recorder = React.createClass({
+  componentDidMount: function () {
+    KeyStore.addListener(this._keysChanged);
+  },
 
-  getInitialState: function(){
+  getInitialState: function () {
     return {
-      isRecording: false,
-      Track: new Track({name: ""}),
-      noteNames: ""
-    };
+      recording: false, track: new Track() };
   },
 
-  addNotesOnChange: function(){
-    this.state.Track.addNotes(this.state.noteNames);
+  isDoneRecording: function () {
+    return !this.isTrackNew() && !this.state.recording;
   },
 
-  storeChanged: function(){
-    this.setState( { noteNames: KeyStore.all() } );
-    this.addNotesOnChange();
+  isRecording: function () {
+    return this.state.recording;
   },
 
-  componentDidMount: function(){
-    listenerToken = KeyStore.addListener(this.storeChanged);
+  isTrackNew: function () {
+    return this.state.track.isBlank();
   },
 
-  componentWillUnmount: function(){
-    listenerToken.remove();
+  playClass: function () {
+    var className = ("play-button" + this.isTrackNew() ? "" : " disabled");
+    console.log(className);
+    return ("play-button" + this.isTrackNew() ? "" : " disabled");
   },
 
-  render: function(){
-    var track = this.state.Track;
-    return(
-      <div>
-        <button onClick = {track.play.bind(track)}>Play</button>
-        <button onClick = {track.startRecording.bind(track)}>Record</button>
-        <button onClick = {track.stopRecording.bind(track)}>Stop Recording</button>
-      </div>
+  playClick: function (e) {
+    if(!this.isTrackNew()){
+      this.state.track.play();
+    }
+  },
+
+  recordingMessage: function () {
+    if (this.isRecording()) {
+      return "Stop Recording";
+    } else if (this.isDoneRecording()) {
+      return "Done Recording";
+    } else {
+      return "Start Recording";
+    }
+  },
+
+  recordClick: function (e) {
+    if (this.state.recording) {
+      this.state.track.completeRecording();
+      this.setState({ recording: false });
+    } else {
+      this.setState({ recording: true });
+      this.state.track.startRecording();
+    }
+  },
+
+  saveTrack: function (e) {
+    this.state.track.set('name', prompt("please enter name"));
+    this.state.track.save();
+  },
+
+  trackSavingElements: function () {
+    if (this.isDoneRecording()) {
+      return (
+        <button onClick={this.saveTrack} className="control">
+          Save Track
+        </button>
+      );
+    }
+  },
+
+  _keysChanged: function () {
+    if (this.state.recording){
+      this.state.track.addNotes(KeyStore.all());
+    }
+  },
+
+
+  render: function () {
+    var hasTrack = this.isTrackNew();
+    var recordingStatus = this.state.recording ? " is-recording" : " not-recording";
+
+    return (
+      <section className="controls">
+        <p className="recorder">  Recorder</p>
+        <p onClick={this.recordClick} className={"button record-button" + recordingStatus}>
+          {"\u25CF"}
+           { //this.recordingMessage()
+           }
+        </p>
+        <p onClick={this.playClick} className="button play-button">
+          {"▶"}
+        </p>
+      </section>
     );
   }
 });

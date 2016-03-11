@@ -5,12 +5,9 @@ var React = require('react'),
 
 window.KeyListener = require('./util/KeyListener');
 
-ReactDom.render(
-  <div className="keyboard">
-    <Organ />
-    <Recorder />
-  </div>, root
-);
+ReactDom.render( <Organ />, root);
+
+
 
 //
 // window.Notes = require('./util/Note');

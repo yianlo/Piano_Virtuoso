@@ -8,12 +8,16 @@ var KeyStore = new Store(AppDispatcher);
 KeyStore.__onDispatch = function(payload){
   switch (payload.actionType){
     case "ADD_KEY":
-      addKey(payload.key);
+      _addKey(payload.key);
       KeyStore.__emitChange();
       break;
     case "REMOVE_KEY":
-      removeKey(payload.key);
+      _removeKey(payload.key);
       KeyStore.__emitChange();
+      break;
+    case "GROUP_UPDATE":
+      _groupUpdate(payload.notes);
+      this.__emitChange();
       break;
   }
 
@@ -23,13 +27,17 @@ KeyStore.all = function(){
   return _keys.slice();
 };
 
-var addKey = function(key){
+var _groupUpdate = function (keys) {
+  _keys = keys.slice();
+};
+
+var _addKey = function(key){
   if ( _keys[_keys.length - 1] !== key ) {
     _keys.push(key);
   }
 };
 
-var removeKey = function(key){
+var _removeKey = function(key){
   var indx = _keys.indexOf(key);
   _keys.splice(indx, 1);
 };

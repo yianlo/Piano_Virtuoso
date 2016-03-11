@@ -1,0 +1,114 @@
+@keyframes key-text-render {
+    from {opacity: 0.1;}
+    to {opacity: 1;}
+}
+
+@keyframes key-text-hide {
+    from {opacity: 1;}
+    to {opacity: 0.1;}
+}
+
+.key-text, .hidden-key-text{
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.6);
+
+  background-color: rgba(185, 220, 200, 0.6);
+  width: 32px;
+  height: 28px;
+  border-radius: 7px;
+  text-align: center;
+  line-height: 30px;
+  margin-bottom: 20px;
+  box-shadow: 2px 2px 10px gray;
+  //
+  animation: key-text-render 0.4s linear;
+
+  // visibility: visible;
+
+  transition-duration: 2s;
+}
+
+.hidden-key-text{
+  animation: key-text-hide 0.4s linear;
+  opacity: 0;
+  // animation: key-text-render 1s linear;
+  // animation-direction: reverse;
+}
+
+.black-key > .keyText{
+  box-shadow: 0px 1px 8px #777;
+  color: #111;
+}
+
+.keyboards{
+  min-height:308px;
+  width: 590px;
+  padding-top: 8px;
+  display: flex;
+  justify-content: center;
+  border: outset;
+  border-color: black;;
+  background-color:  rgb(25, 25, 25);
+  position: relative;
+  list-style-type: none;
+  border-radius: 4px;
+  display: flex;
+}
+
+.white-key:hover{
+  background-color: rgb(230, 225, 225);
+  cursor: pointer;
+}
+
+.black-key:hover{
+  background-color: #555;
+  cursor: pointer;
+}
+
+.white-key, .black-key{
+  border-bottom-left-radius: 7px;
+  border-bottom-right-radius: 7px;
+  border: outset;
+  border-top-style: none;
+  box-shadow: 0px 6px 6px gray;
+
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  transition-duration: 0.1s;
+}
+
+.white-key{
+  background: white;
+  height: 290px;
+  width: 65px;
+}
+
+.white-key:last-of-type {
+  border-right: none;
+}
+
+.black-key{
+  background: rgb(25, 25, 25);
+  position: absolute;
+  transform: translateX(-20px);
+  height: 180px;
+  width: 40px;
+  z-index: 100;
+}
+
+.black-key-playing, .white-key-playing{
+  background: rgb(208.5, 205, 205);
+  border: inset;
+  border-top: none;
+  box-shadow: 0px 2px 10px gray;
+
+  display: block;
+}
+
+
+
+.black-key-playing{
+  background: #000;
+  border-right: none;
+}

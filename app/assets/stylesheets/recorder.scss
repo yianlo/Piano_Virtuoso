@@ -1,0 +1,101 @@
+
+button{
+  font-size: 30px;
+  height: 40px;
+  width: 40px;
+  line-height: 25px;
+  background: rgba(233, 233, 233, 0.7);
+  border-radius: 8px;
+  border: outset;
+  margin-left: 17px;
+
+  /*transition-duration: 5s;*/
+}
+
+button:active {
+  border: inset;
+}
+
+.button:hover {
+  cursor: pointer;
+}
+
+.button{
+  text-align: center;
+  font-size: 30px;
+  height: 32px;
+  width: 32px;
+  line-height: 34px;
+  border: 1px solid #ddd;
+  background: rgba(233, 233, 233, 0.7);
+  border-radius: 2px;
+  /*border: outset;*/
+  margin-left: 17px;
+  margin-top: 0px;
+
+  box-shadow: 0px 5px 5px #777;
+  transform: translateY(0px);
+  transition-duration: .18s;
+}
+
+.not-recording:hover, .play-button:hover {
+  cursor: pointer;
+
+  box-shadow: 0px 3.9px 5px #777;
+  transform: translateY(1.1px);
+}
+
+
+.button:active{
+  transform: translateY(4px);
+  box-shadow: 0px 1px 5px #777;
+
+  animation-name: example;
+  animation-duration: 0.3s;
+  background-color: rgba(190, 190, 190, 0.7);
+}
+
+@keyframes example {
+    0%   {background-color: rgba(233, 233, 233, 0.7);}
+    25%  {background-color: rgba(220, 220, 220, 0.7);}
+    50%  {background-color: rgba(205, 205, 205, 0.7);}
+    100% {background-color: rgba(190, 190, 190, 0.7);}
+}
+
+.play-button{
+  font-size: 15px;
+}
+
+.record-button{
+  color: rgb(228, 100, 100);
+  line-height: 31px;
+
+}
+
+.not-recording {
+  /*border: outset;*/
+}
+
+
+
+.is-recording {
+  transform: translateY(3px);
+  box-shadow: 0.5px 0.5px 3px #555;
+  border: 1.9px solid rgba(230, 230, 230, 1);
+  background: rgba(190, 190, 190, 0.7);
+
+  color: rgb(250, 80, 80);
+
+  animation-name: example;
+  animation-duration: 0.3s;
+  /*box-sizing: border-box;*/
+  /*border-top: none;*/
+  /*border: inset;*/
+  /*background: #bbb;*/
+}
+
+
+
+.controls {
+  display: flex;
+}
