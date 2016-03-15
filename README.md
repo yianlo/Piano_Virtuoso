@@ -2,7 +2,12 @@
 
 Virtual piano keyboard with recorder and playback capabilities built with React.js
 
-## Feature
+## Usage
+* Clone this repository
+* In terminal, run `rails s` to start server
+* Open `localhost:3000` in browser
+
+## Features
 
 #### 1. View of piano keys and buttons as React components for a smooth user experience
 ![base-view]
