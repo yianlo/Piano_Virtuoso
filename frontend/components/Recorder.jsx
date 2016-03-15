@@ -36,16 +36,6 @@ var Recorder = React.createClass({
     }
   },
 
-  recordingMessage: function () {
-    if (this.isRecording()) {
-      return "Stop Recording";
-    } else if (this.isDoneRecording()) {
-      return "Done Recording";
-    } else {
-      return "Start Recording";
-    }
-  },
-
   recordClick: function (e) {
     if (this.state.recording) {
       this.state.track.completeRecording();
@@ -77,7 +67,6 @@ var Recorder = React.createClass({
     }
   },
 
-
   render: function () {
     var hasTrack = this.isTrackNew();
     var recordingStatus = this.state.recording ? " is-recording" : " not-recording";
@@ -87,8 +76,6 @@ var Recorder = React.createClass({
         <p className="recorder">  Recorder</p>
         <p onClick={this.recordClick} className={"button record-button" + recordingStatus}>
           {"\u25CF"}
-           { //this.recordingMessage()
-           }
         </p>
         <p onClick={this.playClick} className="button play-button">
           {"▶"}

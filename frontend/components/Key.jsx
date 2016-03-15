@@ -21,9 +21,13 @@ var Key = React.createClass({
     };
   },
 
+  componentWillMount: function(){
+    this.firstMount = true;
+  },
+
   componentDidMount: function(){
     listenerToken = KeyStore.addListener(this.storeChanged);
-    this.mounted = true;
+    this.firstMount = false;
 
     // KeyStore.fetch();
   },
@@ -55,16 +59,16 @@ var Key = React.createClass({
   },
 
   renderKeyText: function(){
-    if (this.mounted){
+    // if (this.mounted){
       if (this.props.noteNameShown){
         var strippedText = this.props.noteName.replace(/S/g, '#').replace(/[0-9]/g, '');
         return( <div className="key-text">{strippedText}</div> )
       } else if (this.props.keyNameShown){
         return( <div className="key-text">{KeyNameMap[this.props.noteName]}</div> )
-      } else {
-        return( <div className="hidden-key-text"></div> )
+      // } else {
+        // return( <div className="hidden-key-text"></div> )
       }
-    }
+    // }
   },
 
   render: function(){
@@ -74,7 +78,9 @@ var Key = React.createClass({
       <section
         className={this.classname}
         onMouseDown={this.addNote}
-        onMouseUp={this.removeNote}> { this.renderKeyText() } </section> );
+        onMouseUp={this.removeNote}>
+        { this.renderKeyText() }
+      </section> );
   }
 });
 

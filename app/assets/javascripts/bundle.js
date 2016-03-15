@@ -19822,9 +19822,13 @@
 	    };
 	  },
 	
+	  componentWillMount: function () {
+	    this.firstMount = true;
+	  },
+	
 	  componentDidMount: function () {
 	    listenerToken = KeyStore.addListener(this.storeChanged);
-	    this.mounted = true;
+	    this.firstMount = false;
 	
 	    // KeyStore.fetch();
 	  },
@@ -19856,24 +19860,24 @@
 	  },
 	
 	  renderKeyText: function () {
-	    if (this.mounted) {
-	      if (this.props.noteNameShown) {
-	        var strippedText = this.props.noteName.replace(/S/g, '#').replace(/[0-9]/g, '');
-	        return React.createElement(
-	          'div',
-	          { className: 'key-text' },
-	          strippedText
-	        );
-	      } else if (this.props.keyNameShown) {
-	        return React.createElement(
-	          'div',
-	          { className: 'key-text' },
-	          KeyNameMap[this.props.noteName]
-	        );
-	      } else {
-	        return React.createElement('div', { className: 'hidden-key-text' });
-	      }
+	    // if (this.mounted){
+	    if (this.props.noteNameShown) {
+	      var strippedText = this.props.noteName.replace(/S/g, '#').replace(/[0-9]/g, '');
+	      return React.createElement(
+	        'div',
+	        { className: 'key-text' },
+	        strippedText
+	      );
+	    } else if (this.props.keyNameShown) {
+	      return React.createElement(
+	        'div',
+	        { className: 'key-text' },
+	        KeyNameMap[this.props.noteName]
+	      );
+	      // } else {
+	      // return( <div className="hidden-key-text"></div> )
 	    }
+	    // }
 	  },
 	
 	  render: function () {
@@ -19885,9 +19889,7 @@
 	        className: this.classname,
 	        onMouseDown: this.addNote,
 	        onMouseUp: this.removeNote },
-	      ' ',
-	      this.renderKeyText(),
-	      ' '
+	      this.renderKeyText()
 	    );
 	  }
 	});
@@ -26838,16 +26840,6 @@
 	  playClick: function (e) {
 	    if (!this.isTrackNew()) {
 	      this.state.track.play();
-	    }
-	  },
-	
-	  recordingMessage: function () {
-	    if (this.isRecording()) {
-	      return "Stop Recording";
-	    } else if (this.isDoneRecording()) {
-	      return "Done Recording";
-	    } else {
-	      return "Start Recording";
 	    }
 	  },
 	

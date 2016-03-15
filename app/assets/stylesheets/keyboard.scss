@@ -10,9 +10,9 @@
 
 .key-text, .hidden-key-text{
   font-size: 12px;
-  color: rgba(0, 0, 0, 0.6);
+  color: rgba(0, 0, 0, 0.9);
 
-  background-color: rgba(185, 220, 200, 0.6);
+  background-color: rgba(185, 220, 200, 0.9);
   width: 32px;
   height: 28px;
   border-radius: 7px;
@@ -21,7 +21,7 @@
   margin-bottom: 20px;
   box-shadow: 2px 2px 10px gray;
   //
-  animation: key-text-render 0.4s linear;
+  animation: key-text-render 0.1s linear;
 
   // visibility: visible;
 
@@ -29,7 +29,7 @@
 }
 
 .hidden-key-text{
-  animation: key-text-hide 0.4s linear;
+  animation: key-text-hide 0.1s linear;
   opacity: 0;
   // animation: key-text-render 1s linear;
   // animation-direction: reverse;
@@ -98,15 +98,12 @@
 }
 
 .black-key-playing, .white-key-playing{
-  background: rgb(208.5, 205, 205);
+  background: rgb(218.5, 215, 215);
   border: inset;
   border-top: none;
-  box-shadow: 0px 2px 10px gray;
+  border-color: rgb(208.5, 205, 205);
 
-  display: block;
 }
-
-
 
 .black-key-playing{
   background: #000;
