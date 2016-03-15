@@ -4,16 +4,16 @@ Virtual piano keyboard with recorder and playback capabilities built with React.
 
 ## Feature
 
-### Single page view of piano keys and buttons as React components for smooth user experience
+##### Single page view of piano keys and buttons as React components for smooth user experience
 ![base-view]
 
-### Provides smooth user feedback when playing keys
+##### Provides smooth user feedback when playing keys
 ![playing]
 
-### Features recording and playback capabilities
+##### Features recording and playback capabilities
 ![recording]
 
-### Displays keys and notes for improved user experience
+##### Displays keys and notes for improved user experience
 ![keys-display]
 ![notes-display]
 
